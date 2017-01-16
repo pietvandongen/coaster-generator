@@ -1,0 +1,10 @@
+{
+    "files": [
+      "src/typescript/main.ts"
+    ],
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "target": "es5"
+    }
+}
+
