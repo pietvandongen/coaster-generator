@@ -15,3 +15,5 @@ A coaster shape generator, for all your laser cutting coaster needs.
 - Create URL with link to exact coaster.
 - Create favicon.
 - Let Gulp watch not exit on lint errors.
+- Add GitHub page.
+- Setup continuous integration.
