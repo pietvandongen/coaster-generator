@@ -33,6 +33,7 @@ gulp.task("build", gulp.series(
     gulp.parallel(copyHtml, buildCss, buildJavaScript)
 ));
 gulp.task("default", gulp.series("build", watch));
+gulp.task("test", gulp.series("build"));
 
 function cleanBuild() {
     return del([paths.destinations.application]);
