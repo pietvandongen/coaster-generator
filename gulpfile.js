@@ -2,6 +2,7 @@ var browserify = require("browserify");
 var buffer = require("vinyl-buffer");
 var del = require("del");
 var gulp = require("gulp");
+var htmlhint = require("gulp-htmlhint");
 var sass = require("gulp-sass");
 var sassLint = require("gulp-sass-lint");
 var sassModuleImporter = require("sass-module-importer");
@@ -29,7 +30,7 @@ var paths = {
 
 gulp.task("build", gulp.series(
     cleanBuild,
-    lintTypeScript,
+    gulp.parallel(lintHtml, lintTypeScript),
     gulp.parallel(copyHtml, buildCss, buildJavaScript)
 ));
 gulp.task("default", gulp.series("build", watch));
@@ -53,6 +54,12 @@ function buildCss() {
         .pipe(sass({importer: sassModuleImporter()}).on("error", sass.logError))
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest(paths.destinations.application));
+}
+
+function lintHtml() {
+    return gulp.src(paths.sources.html)
+        .pipe(htmlhint())
+        .pipe(htmlhint.failReporter());
 }
 
 function lintTypeScript() {

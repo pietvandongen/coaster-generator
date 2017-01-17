@@ -33,6 +33,7 @@
     "del": "^2.2.2",
     "gh-pages-travis": "^1.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-htmlhint": "^0.3.1",
     "gulp-sass": "^3.0.0",
     "gulp-sass-lint": "^1.3.2",
     "gulp-sourcemaps": "^1.9.1",
