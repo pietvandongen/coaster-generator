@@ -1,3 +1,17 @@
 language: node_js
 node_js:
-  - "6"
+- '6'
+branches:
+  except:
+  - gh-pages
+env:
+  global:
+    - SSH_KEY="id_rsa"
+    - GIT_NAME="Piet van Dongen"
+    - SOURCE_DIR="application"
+    - DEPLOY_BRANCH="master"
+before_install:
+- openssl aes-256-cbc -K $encrypted_8f6696f6b4c8_key -iv $encrypted_8f6696f6b4c8_iv
+  -in id_rsa.enc -out id_rsa -d
+after_sucess:
+- npm run gh-pages-travis
