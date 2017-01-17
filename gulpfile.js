@@ -1,4 +1,5 @@
 var browserify = require("browserify");
+var browserSync = require('browser-sync').create();
 var buffer = require("vinyl-buffer");
 var del = require("del");
 var gulp = require("gulp");
@@ -84,8 +85,17 @@ function buildJavaScript() {
         .pipe(gulp.dest(paths.destinations.application));
 }
 
+function reload(done) {
+    browserSync.reload();
+    done();
+}
+
 function watch() {
-    gulp.watch(paths.sources.html, copyHtml);
-    gulp.watch(paths.sources.scss, buildCss);
-    gulp.watch(paths.sources.typeScript, gulp.series(lintTypeScript, buildJavaScript));
+    browserSync.init({
+        server: "./application"
+    });
+
+    gulp.watch(paths.sources.html, gulp.series(lintHtml, copyHtml, reload));
+    gulp.watch(paths.sources.scss, gulp.series(buildCss, reload));
+    gulp.watch(paths.sources.typeScript, gulp.series(lintTypeScript, buildJavaScript, reload));
 }
