@@ -77,16 +77,22 @@ function lintHtml() {
 function lintTypeScript() {
     return gulp.src(paths.sources.typeScript)
         .pipe(tslint())
-        .pipe(tslint.report());
+        .pipe(tslint.report({
+            emitError: isProductionBuild
+        }));
 }
 
-function buildJavaScript() {
+function buildJavaScript(done) {
     return browserify()
         .add(paths.entrypoints.typeScript)
         .plugin(tsify)
         .bundle()
         .on("error", function (error) {
-            console.error(error.toString());
+            util.log(error);
+
+            if (!isProductionBuild) {
+                done();
+            }
         })
         .pipe(source("application.js"))
         .pipe(buffer())
