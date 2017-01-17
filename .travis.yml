@@ -16,7 +16,7 @@ before_install:
 install:
   - npm install
 before_script:
-  - npm install -g gulp
+  - npm install gulpjs/gulp-cli -g
 script:
   - gulp test
 after_sucess:
