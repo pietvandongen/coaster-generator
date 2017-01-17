@@ -5,6 +5,7 @@ var cleanCSS = require('gulp-clean-css');
 var del = require("del");
 var gulp = require("gulp");
 var htmlhint = require("gulp-htmlhint");
+var htmlmin = require('gulp-htmlmin');
 var sass = require("gulp-sass");
 var sassLint = require("gulp-sass-lint");
 var source = require("vinyl-source-stream");
@@ -12,6 +13,7 @@ var sourcemaps = require("gulp-sourcemaps");
 var tsify = require("tsify");
 var tslint = require("gulp-tslint");
 var uglify = require("gulp-uglify");
+var util = require("gulp-util");
 
 var paths = {
     sources: {
@@ -29,20 +31,24 @@ var paths = {
     }
 };
 
+var isProductionBuild = !!util.env.isProductionBuild;
+
 gulp.task("build", gulp.series(
     cleanBuild,
     gulp.parallel(lintHtml, lintScss, lintTypeScript),
-    gulp.parallel(copyHtml, buildCss, buildJavaScript)
+    gulp.parallel(buildHtml, buildCss, buildJavaScript)
 ));
-gulp.task("default", gulp.series("build", watch));
 gulp.task("test", gulp.series("build"));
+gulp.task("default", gulp.series("build", watch));
 
 function cleanBuild() {
+    util.log("isProductionBuild: " + isProductionBuild);
     return del([paths.destinations.application]);
 }
 
-function copyHtml() {
+function buildHtml() {
     return gulp.src(paths.sources.html)
+        .pipe(isProductionBuild ? htmlmin({collapseWhitespace: true}) : util.noop())
         .pipe(gulp.dest(paths.destinations.application));
 }
 
@@ -55,10 +61,10 @@ function lintScss() {
 
 function buildCss() {
     return gulp.src(paths.entrypoints.scss)
-        .pipe(sourcemaps.init())
+        .pipe(isProductionBuild ? util.noop() : sourcemaps.init())
         .pipe(sass().on("error", sass.logError))
-        .pipe(cleanCSS())
-        .pipe(sourcemaps.write("./"))
+        .pipe(isProductionBuild ? cleanCSS() : util.noop())
+        .pipe(isProductionBuild ? util.noop() : sourcemaps.write("./"))
         .pipe(gulp.dest(paths.destinations.application));
 }
 
@@ -84,9 +90,9 @@ function buildJavaScript() {
         })
         .pipe(source("application.js"))
         .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(uglify())
-        .pipe(sourcemaps.write("./"))
+        .pipe(isProductionBuild ? util.noop() : sourcemaps.init({loadMaps: true}))
+        .pipe(isProductionBuild ? uglify() : util.noop())
+        .pipe(isProductionBuild ? util.noop() : sourcemaps.write("./"))
         .pipe(gulp.dest(paths.destinations.application));
 }
 
@@ -100,7 +106,7 @@ function watch() {
         server: "./application"
     });
 
-    gulp.watch(paths.sources.html, gulp.series(lintHtml, copyHtml, reload));
+    gulp.watch(paths.sources.html, gulp.series(lintHtml, buildHtml, reload));
     gulp.watch(paths.sources.scss, gulp.series(lintScss, buildCss, reload));
     gulp.watch(paths.sources.typeScript, gulp.series(lintTypeScript, buildJavaScript, reload));
 }
