@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '6'
+  - '6'
 branches:
   except:
   - gh-pages
@@ -13,11 +13,5 @@ env:
 before_install:
   - openssl aes-256-cbc -K $encrypted_8f6696f6b4c8_key -iv $encrypted_8f6696f6b4c8_iv
     -in id_rsa.enc -out id_rsa -d
-install:
-  - npm install
-before_script:
-  - npm install gulpjs/gulp-cli -g
-script:
-  - gulp test
-after_sucess:
+after_success:
   - npm run gh-pages-travis
