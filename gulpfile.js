@@ -1,12 +1,12 @@
 var browserify = require("browserify");
 var browserSync = require('browser-sync').create();
 var buffer = require("vinyl-buffer");
+var cleanCSS = require('gulp-clean-css');
 var del = require("del");
 var gulp = require("gulp");
 var htmlhint = require("gulp-htmlhint");
 var sass = require("gulp-sass");
 var sassLint = require("gulp-sass-lint");
-var sassModuleImporter = require("sass-module-importer");
 var source = require("vinyl-source-stream");
 var sourcemaps = require("gulp-sourcemaps");
 var tsify = require("tsify");
@@ -31,7 +31,7 @@ var paths = {
 
 gulp.task("build", gulp.series(
     cleanBuild,
-    gulp.parallel(lintHtml, lintTypeScript),
+    gulp.parallel(lintHtml, lintScss, lintTypeScript),
     gulp.parallel(copyHtml, buildCss, buildJavaScript)
 ));
 gulp.task("default", gulp.series("build", watch));
@@ -46,13 +46,18 @@ function copyHtml() {
         .pipe(gulp.dest(paths.destinations.application));
 }
 
-function buildCss() {
+function lintScss() {
     return gulp.src(paths.entrypoints.scss)
         .pipe(sassLint())
         .pipe(sassLint.format())
-        .pipe(sassLint.failOnError())
+        .pipe(sassLint.failOnError());
+}
+
+function buildCss() {
+    return gulp.src(paths.entrypoints.scss)
         .pipe(sourcemaps.init())
-        .pipe(sass({importer: sassModuleImporter()}).on("error", sass.logError))
+        .pipe(sass().on("error", sass.logError))
+        .pipe(cleanCSS())
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest(paths.destinations.application));
 }
@@ -96,6 +101,6 @@ function watch() {
     });
 
     gulp.watch(paths.sources.html, gulp.series(lintHtml, copyHtml, reload));
-    gulp.watch(paths.sources.scss, gulp.series(buildCss, reload));
+    gulp.watch(paths.sources.scss, gulp.series(lintScss, buildCss, reload));
     gulp.watch(paths.sources.typeScript, gulp.series(lintTypeScript, buildJavaScript, reload));
 }
