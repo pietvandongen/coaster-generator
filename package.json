@@ -28,7 +28,6 @@
   "homepage": "https://github.com/pietvandongen/coaster-generator#readme",
   "devDependencies": {
     "@types/d3-array": "^1.0.6",
-    "@types/d3-polygon": "^1.0.4",
     "@types/d3-selection": "^1.0.9",
     "@types/d3-voronoi": "^1.1.5",
     "@types/jquery": "^2.0.39",
