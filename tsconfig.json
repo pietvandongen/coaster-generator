@@ -1,10 +1,9 @@
 {
-    "files": [
-      "src/typescript/main.ts"
-    ],
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "target": "es5"
-    }
+  "files": [
+    "src/typescript/main.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es5"
+  }
 }
-
