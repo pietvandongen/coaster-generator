@@ -32,7 +32,6 @@ var paths = {
 };
 
 var isProductionBuild = !!util.env.isProductionBuild;
-console.log(isProductionBuild);
 
 gulp.task("build", gulp.series(
     cleanBuild,
