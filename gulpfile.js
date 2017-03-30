@@ -24,7 +24,7 @@ var paths = {
     },
     entrypoints: {
         scss: "src/scss/application.scss",
-        typeScript: "src/typescript/application.ts"
+        typeScript: "src/typescript/Application.ts"
     },
     destinations: {
         application: "application"

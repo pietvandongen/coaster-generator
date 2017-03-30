@@ -1,6 +1,13 @@
+@import 'variables';
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import 'colors';
+@import 'figure';
+
+html,
+body {
+  height: 100%;
+}
 
 body {
-  background: $blue;
+  background: $white;
 }
