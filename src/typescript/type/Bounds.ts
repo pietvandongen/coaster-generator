@@ -1,6 +1,6 @@
 import {Point} from "./Point";
 
-export interface Bounds {
+export type Bounds = {
     readonly topLeft: Point;
     readonly bottomRight: Point;
 }

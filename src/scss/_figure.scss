@@ -1,4 +1,7 @@
+$figurePadding: 2rem;
+
 .figure-container {
   height: 100%;
-  padding-top: ($navbar-padding-x + 1.25rem) * $line-height-base;
+  padding-bottom: $figurePadding;
+  padding-top: ($navbar-padding-x + $font-size-lg) * $line-height-base + $figurePadding;
 }
