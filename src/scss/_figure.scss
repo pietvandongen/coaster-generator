@@ -1,7 +1,30 @@
 $figurePadding: 2rem;
+$stroke-dash-distance: 100;
 
 .figure-container {
   height: 100%;
   padding-bottom: $figurePadding;
   padding-top: ($navbar-padding-x + $font-size-lg) * $line-height-base + $figurePadding;
+}
+
+path {
+  animation: dash 0.5s linear forwards;
+  stroke-dasharray: $stroke-dash-distance;
+  stroke-dashoffset: $stroke-dash-distance;
+  stroke-linecap: round;
+}
+
+.main-regions path {
+  stroke-dashoffset: $stroke-dash-distance * 1.5;
+}
+
+.sub-regions path {
+  animation-delay: 0.2s;
+  stroke-linecap: round;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
 }

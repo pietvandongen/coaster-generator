@@ -58,7 +58,7 @@ export class CoasterFigureService implements FigureService {
     private drawMainRegions(pathDescriptions: string[]): void {
         let group: Selection<BaseType, {}, null, undefined> = this.figureSelection
             .append("g")
-            .attr("id", "main-regions");
+            .attr("class", "main-regions");
 
         pathDescriptions.forEach((pathDescription: string) => {
             group
