@@ -6,25 +6,23 @@ export class RandomColorService implements ColorService {
     readonly maximumHue: number = 360;
     readonly maximumChroma: number = 100;
     readonly maximumLuminance: number = 150;
-    readonly randomHue: number;
     readonly mainColor: HCLColor;
     readonly darkenedColor: HCLColor;
     readonly complimentaryColor: HCLColor;
 
     constructor() {
-        this.randomHue = Math.random() * this.maximumHue;
         this.mainColor = d3Color.hcl(
-            Math.random() * this.maximumHue,
+            Math.round(Math.random() * this.maximumHue),
             0.25 * this.maximumChroma,
             0.15 * this.maximumLuminance
         );
         this.darkenedColor = d3Color.hcl(
             this.mainColor.h,
             this.mainColor.c,
-            0.07 * this.maximumLuminance
+            0.4 * this.mainColor.l
         );
         this.complimentaryColor = d3Color.hcl(
-            this.randomHue + (0.25 * this.maximumHue) % this.maximumHue,
+            (this.mainColor.h + this.maximumHue / 3) % this.maximumHue,
             0.67 * this.maximumChroma,
             0.5 * this.maximumLuminance
         );
@@ -38,7 +36,7 @@ export class RandomColorService implements ColorService {
         return this.darkenedColor;
     }
 
-    getComplimentaryColor(): HCLColor {
+    getSecondaryColor(): HCLColor {
         return this.complimentaryColor;
     }
 }

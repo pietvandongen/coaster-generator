@@ -22,11 +22,11 @@ function insertStyleDeclarations(): void {
         }
         
         .complimentary-text-color {
-            color: ${colorService.getComplimentaryColor().toString()};
+            color: ${colorService.getSecondaryColor().toString()};
         }
         
         path {
-            stroke: ${colorService.getComplimentaryColor().toString()};
+            stroke: ${colorService.getSecondaryColor().toString()};
         }
     </style>`);
 }

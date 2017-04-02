@@ -1,7 +1,7 @@
-import {HCLColor} from "d3-color";
+import {Color} from "d3-color";
 
 export interface ColorService {
-    getMainColor(): HCLColor;
-    getDarkenedColor(): HCLColor;
-    getComplimentaryColor(): HCLColor;
+    getMainColor(): Color;
+    getDarkenedColor(): Color;
+    getSecondaryColor(): Color;
 }
