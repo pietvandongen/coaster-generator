@@ -4,27 +4,27 @@ import {ColorService} from "./ColorService";
 
 export class RandomColorService implements ColorService {
     readonly maximumHue: number = 360;
-    readonly maximumChroma: number = 100;
-    readonly maximumLuminance: number = 150;
     readonly mainColor: HCLColor;
     readonly darkenedColor: HCLColor;
     readonly complimentaryColor: HCLColor;
 
     constructor() {
+        console.log(d3Color.hcl("#3ad284"));
+
         this.mainColor = d3Color.hcl(
             Math.round(Math.random() * this.maximumHue),
-            0.25 * this.maximumChroma,
-            0.15 * this.maximumLuminance
+            83,
+            35
         );
         this.darkenedColor = d3Color.hcl(
             this.mainColor.h,
             this.mainColor.c,
-            0.4 * this.mainColor.l
+            0.75 * this.mainColor.l
         );
         this.complimentaryColor = d3Color.hcl(
             (this.mainColor.h + this.maximumHue / 3) % this.maximumHue,
-            0.67 * this.maximumChroma,
-            0.5 * this.maximumLuminance
+            63,
+            75
         );
     }
 
