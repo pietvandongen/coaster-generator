@@ -9,8 +9,6 @@ export class RandomColorService implements ColorService {
     readonly complimentaryColor: HCLColor;
 
     constructor() {
-        console.log(d3Color.hcl("#3ad284"));
-
         this.mainColor = d3Color.hcl(
             Math.round(Math.random() * this.maximumHue),
             83,
